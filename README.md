@@ -1,7 +1,7 @@
 ---
 services: cognitive-services, luis, language-understanding
 platforms: dotnet
-author: microsoft
+author: cahann
 ---
 
 # Cognitive Services: LUIS Console Application Sample
