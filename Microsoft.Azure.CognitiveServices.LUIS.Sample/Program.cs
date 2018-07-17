@@ -4,8 +4,9 @@
     using System.IO;
     using System.Threading.Tasks;
     using Microsoft.Extensions.Configuration;
-    using Microsoft.Azure.CognitiveServices.Language.LUIS.Models;
+    using Microsoft.Azure.CognitiveServices.Language.LUIS.Authoring.Models;
     using Newtonsoft.Json;
+    using Microsoft.Azure.CognitiveServices.Language.LUIS.Authoring;
 
     class Program
     {
