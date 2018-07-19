@@ -4,16 +4,16 @@
     using System.IO;
     using System.Threading.Tasks;
     using Microsoft.Extensions.Configuration;
-    using Microsoft.Azure.CognitiveServices.Language.LUIS.Models;
     using Newtonsoft.Json;
+    using Microsoft.Azure.CognitiveServices.Language.LUIS.Runtime;
 
     class Program
     {
         public static IConfigurationRoot Configuration { get; set; }
 
-        private static AzureRegions AzureRegion;
         private static string SubscriptionKey;
         private static string ApplicationId;
+        private static string Region;
 
         static void Main(string[] args)
         {
@@ -42,10 +42,8 @@
                     if (input.Length > 0)
                     {
                         // Create client with SuscriptionKey and AzureRegion
-                        var client = new LuisRuntimeAPI(new ApiKeyServiceClientCredentials(SubscriptionKey))
-                        {
-                            AzureRegion = AzureRegion
-                        };
+                        var client = new LUISRuntimeClient(new Uri("https://" + Region + ".api.cognitive.microsoft.com/luis/v2.0"),
+                        new ApiKeyServiceClientCredentials(SubscriptionKey));
 
                         // Predict
                         var result = await client.Prediction.ResolveAsync(ApplicationId, input);
@@ -67,13 +65,12 @@
 
             Configuration = builder.Build();
 
-            var region = Configuration["LUIS.Region"];
-            if (string.IsNullOrWhiteSpace(region))
+            Region = Configuration["LUIS.Region"];
+            if (string.IsNullOrWhiteSpace(Region))
             {
                 throw new ArgumentException("Missing \"LUIS.Region\" in appsettings.json");
             }
 
-            AzureRegion = (AzureRegions)Enum.Parse(typeof(AzureRegions), region, true);
             SubscriptionKey = Configuration["LUIS.SubscriptionKey"];
             ApplicationId = Configuration["LUIS.ApplicationId"];
 
