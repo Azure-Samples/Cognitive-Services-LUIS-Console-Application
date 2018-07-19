@@ -13,6 +13,7 @@
 
         private static string SubscriptionKey;
         private static string ApplicationId;
+        private static string Region;
 
         static void Main(string[] args)
         {
@@ -41,7 +42,7 @@
                     if (input.Length > 0)
                     {
                         // Create client with SuscriptionKey and AzureRegion
-                        var client = new LUISRuntimeClient(new Uri("https://westus.api.cognitive.microsoft.com/luis/v2.0"),
+                        var client = new LUISRuntimeClient(new Uri("https://" + Region + ".api.cognitive.microsoft.com/luis/v2.0"),
                         new ApiKeyServiceClientCredentials(SubscriptionKey));
 
                         // Predict
@@ -64,8 +65,8 @@
 
             Configuration = builder.Build();
 
-            var region = Configuration["LUIS.Region"];
-            if (string.IsNullOrWhiteSpace(region))
+            Region = Configuration["LUIS.Region"];
+            if (string.IsNullOrWhiteSpace(Region))
             {
                 throw new ArgumentException("Missing \"LUIS.Region\" in appsettings.json");
             }
